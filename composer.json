@@ -1,0 +1,57 @@
+{
+    "name": "saeedvir/laravel-modular",
+    "description": "A powerful modular architecture package for Laravel applications with auto-discovery, composer merge support, and comprehensive artisan commands",
+    "keywords": [
+        "laravel",
+        "modular",
+        "modules",
+        "architecture",
+        "package",
+        "organization",
+        "structure"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "saeed",
+            "email": "saeed.es9@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/saeedvir/laravel-modular",
+    "support": {
+        "issues": "https://github.com/saeedvir/laravel-modular/issues",
+        "source": "https://github.com/saeedvir/laravel-modular"
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0",
+        "wikimedia/composer-merge-plugin": "^2.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laravel\\Modular\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Laravel\\Modular\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laravel\\Modular\\ModuleServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
