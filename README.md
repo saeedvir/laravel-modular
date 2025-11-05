@@ -217,7 +217,7 @@ protected function registerLivewireComponents(): void
 ```
 usage :
 ```php
-admin:livewire.admin-login
+admin::livewire.admin-login
 ```
 
 ### Disabling Modules
