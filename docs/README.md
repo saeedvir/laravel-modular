@@ -27,6 +27,16 @@ Complete guide covering:
 - Performance optimization
 - Installation checklist
 
+#### [Routing Guide](ROUTING.md) ⭐ NEW
+Understanding module routing:
+- **Automatic route prefixing** - All module routes are prefixed
+- Web routes configuration
+- API routes configuration
+- Custom prefix configuration
+- Route naming conventions
+- Middleware usage
+- Examples and best practices
+
 ### Features & Enhancements
 
 #### [Enhancement Summary](ENHANCEMENT_SUMMARY.md)

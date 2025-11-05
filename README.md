@@ -145,11 +145,12 @@ In `modules/Blog/routes/web.php`:
 use Illuminate\Support\Facades\Route;
 use Modules\Blog\Http\Controllers\PostController;
 
-Route::prefix('blog')->group(function () {
-    Route::get('/', [PostController::class, 'index'])->name('blog.index');
-    Route::resource('posts', PostController::class);
-});
+// Routes are automatically prefixed with 'blog'
+Route::get('/', [PostController::class, 'index'])->name('index');
+Route::resource('posts', PostController::class);
 ```
+
+> **Note**: All routes are automatically prefixed with the module name (`/blog/` in this case). See [Routing Guide](docs/ROUTING.md) for details.
 
 ### Using Views
 
@@ -230,12 +231,12 @@ When `APP_DEBUG=false` (production), only errors are logged.
 | `module:make` | Create a new module |
 | `module:list` | List all modules |
 | `module:remove` | Remove a module |
-| `module:controller` | Create a controller in a module |
-| `module:request` | Create a form request in a module |
-| `module:resource` | Create an API resource in a module |
-| `module:migration` | Create a migration in a module |
-| `module:factory` | Create a model factory in a module |
-| `module:seeder` | Create a database seeder in a module |
+| `module:make-controller` | Create a controller in a module |
+| `module:make-request` | Create a form request in a module |
+| `module:make-resource` | Create an API resource in a module |
+| `module:make-migration` | Create a migration in a module |
+| `module:make-factory` | Create a model factory in a module |
+| `module:make-seeder` | Create a database seeder in a module |
 | `module:test` | Run tests for a specific module |
 | `module:cache` | Cache module configuration |
 
@@ -269,9 +270,97 @@ return [
 ## 📚 Documentation
 
 - **[Installation Guide](docs/INSTALLATION.md)** - Complete installation and setup
+- **[Routing Guide](docs/ROUTING.md)** - Module routing and automatic prefixing ⭐
 - **[Debug Logging](docs/DEBUG_LOGGING.md)** - Debug mode and logging configuration
 - **[Performance Optimization](docs/OPTIMIZATION_SUMMARY.md)** - Performance tips and caching
 - **[Enhancement Summary](docs/ENHANCEMENT_SUMMARY.md)** - Feature enhancements and improvements
+
+## 🆚 Comparison with nWidart/laravel-modules
+
+Both packages provide modular architecture for Laravel, but with different approaches:
+
+### Laravel Modular (This Package)
+
+**Philosophy**: Zero-configuration with native Composer integration
+
+✅ **Advantages:**
+- **Zero Configuration** - Uses `wikimedia/composer-merge-plugin` for automatic autoloading
+- **Native Composer** - Works with standard Composer workflows
+- **Automatic Discovery** - No manual registration needed
+- **Performance Focused** - Built-in caching and performance monitoring
+- **Debug-Aware Logging** - Respects `APP_DEBUG` for production
+- **Simpler Structure** - Standard Laravel conventions
+- **Less Overhead** - Minimal abstraction layer
+- **Composer-First** - Each module has its own `composer.json`
+
+**Best For:**
+- Projects that prefer Composer-native solutions
+- Teams familiar with standard Laravel structure
+- Applications requiring high performance
+- Projects with frequent module changes
+
+### nWidart/laravel-modules
+
+**Philosophy**: Feature-rich with extensive abstisan commands
+
+✅ **Advantages:**
+- **More Commands** - Extensive artisan command set
+- **Asset Management** - Built-in asset publishing
+- **Module Status** - Enable/disable modules dynamically
+- **Established** - Mature package with large community
+- **More Features** - Additional abstractions and helpers
+
+**Best For:**
+- Projects needing extensive CLI tools
+- Applications with complex module management needs
+- Teams wanting more built-in features
+
+### Feature Comparison
+
+| Feature | Laravel Modular | nWidart/laravel-modules |
+|---------|----------------|------------------------|
+| **Autoloading** | Composer merge plugin | Custom autoloader |
+| **Setup Complexity** | Minimal | Moderate |
+| **Module Discovery** | Automatic | Manual registration |
+| **Performance** | Optimized with caching | Standard |
+| **Composer Integration** | Native | Custom |
+| **Debug Logging** | Environment-aware | Standard |
+| **Learning Curve** | Low (standard Laravel) | Moderate |
+| **Module Structure** | Laravel conventions | Custom structure |
+| **Asset Management** | Standard Laravel | Built-in system |
+| **CLI Commands** | 11 essential commands | 40+ commands |
+| **Community** | Growing | Established |
+| **Package Size** | Lightweight | Full-featured |
+
+### When to Choose Laravel Modular
+
+Choose this package if you:
+- ✅ Want zero-configuration setup
+- ✅ Prefer native Composer workflows
+- ✅ Need optimal performance
+- ✅ Like standard Laravel conventions
+- ✅ Want minimal overhead
+- ✅ Use `composer dump-autoload` workflow
+
+### When to Choose nWidart/laravel-modules
+
+Choose nWidart if you:
+- ✅ Need extensive artisan commands
+- ✅ Want built-in asset management
+- ✅ Require dynamic module enable/disable
+- ✅ Prefer feature-rich solutions
+- ✅ Need established community support
+
+### Migration from nWidart
+
+Migrating is straightforward:
+
+1. Module structure is similar (both use MVC)
+2. Routes and views work the same way
+3. Main difference is autoloading (Composer vs custom)
+4. Our [Installation Guide](docs/INSTALLATION.md) covers setup
+
+Both packages are excellent choices - pick based on your project's needs! 🎯
 
 ## 🧪 Testing
 
@@ -293,7 +382,7 @@ If you discover any security-related issues, please email saeed.es91@gmail.com i
 
 ## 👥 Credits
 
-- [Your Name](https://github.com/saeedvir)
+- [saeed](https://github.com/saeedvir)
 - [All Contributors](../../contributors)
 
 ## 📄 License
