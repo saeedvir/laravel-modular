@@ -12,7 +12,7 @@ A powerful modular architecture package for Laravel applications that allows you
 - 📦 **Zero Configuration** - Just run `composer dump-autoload` after creating modules
   
 - ⚡ **Performance Optimized** - Built-in caching and lazy loading for production use
-- ⚡ Peak memory: Improved by 23.1% and Memory usage improved by 10.2%
+- ⚡ (saeedvir/laravel-modular  🆚  nWidart/laravel-modules) Peak memory: Improved by 23.1% and Memory usage improved by 10.2% 
   
 - 🎨 **Complete Module Structure** - Controllers, models, views, routes, migrations, translations
 - 🔧 **Artisan Commands** - Comprehensive CLI tools for module management
