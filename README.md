@@ -198,6 +198,28 @@ Access module config:
 config('blog.version');
 ```
 
+### Register Livewire Components in Module Service Providers
+
+```php
+use Livewire\Livewire;
+    public function boot(): void
+    {
+        //your codes
+        
+        $this->registerLivewireComponents();
+    
+        //your codes
+    }
+protected function registerLivewireComponents(): void
+{
+    Livewire::component('admin::user-management', \Modules\Admin\Livewire\UserManagement::class);
+}
+```
+usage :
+```php
+admin:livewire.admin-login
+```
+
 ### Disabling Modules
 
 In `config/module.php`:
