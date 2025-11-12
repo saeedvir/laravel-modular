@@ -10,6 +10,8 @@ A powerful modular architecture package for Laravel applications that allows you
 
 - [Chat with AI for This Package](https://context7.com/saeedvir/laravel-modular?tab=chat)
 
+- [حمایت مالی از من](https://reymit.ir/saeedvir)
+
 ## ✨ Features
 
 - 🚀 **Auto-Discovery** - Modules automatically discovered and registered via composer merge plugin
