@@ -6,6 +6,10 @@
 
 A powerful modular architecture package for Laravel applications that allows you to organize your codebase into independent, reusable modules with **automatic discovery** and **zero configuration**.
 
+- [Document for LLMs and AI code editors](https://context7.com/saeedvir/laravel-modular)
+
+- [Chat with AI for This Package](https://context7.com/saeedvir/laravel-modular?tab=chat)
+
 ## ✨ Features
 
 - 🚀 **Auto-Discovery** - Modules automatically discovered and registered via composer merge plugin
