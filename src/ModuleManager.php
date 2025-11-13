@@ -113,7 +113,6 @@ class ModuleManager implements ModuleManagerInterface
                     'enabled_modules' => count(array_filter($this->modules, fn($m) => $m['enabled']))
                 ]);
             }
-
         } catch (\Exception $e) {
             Log::error('Module discovery failed', ['error' => $e->getMessage()]);
             throw new ModuleException('Failed to discover modules: ' . $e->getMessage(), 0, $e);
@@ -182,7 +181,7 @@ class ModuleManager implements ModuleManagerInterface
      */
     protected function isDebugMode(): bool
     {
-        return config('app.debug', false);
+        return config('app.debug', false) && config('module.debug_mode', true);
     }
 
     /**
@@ -240,7 +239,6 @@ class ModuleManager implements ModuleManagerInterface
             ]);
 
             return true;
-
         } catch (\Exception $e) {
             Log::error("Failed to create module: {$name}", [
                 'error' => $e->getMessage(),
@@ -627,7 +625,6 @@ class ModuleManager implements ModuleManagerInterface
                 $replacements,
                 $template
             );
-
         } catch (\Exception $e) {
             // Fall back to legacy creation if stubs fail
             if ($this->isDebugMode()) {
@@ -687,7 +684,6 @@ class ModuleManager implements ModuleManagerInterface
             // Default provider class name
             $studlyName = Str::studly($name);
             return "Modules\\{$studlyName}\\Providers\\{$studlyName}ServiceProvider";
-
         } catch (\Exception $e) {
             Log::error("Failed to read module provider from composer.json", [
                 'file' => $composerFile,
