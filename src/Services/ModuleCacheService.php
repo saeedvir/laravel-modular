@@ -155,6 +155,6 @@ class ModuleCacheService
      */
     protected function isDebugMode(): bool
     {
-        return config('app.debug', false);
+        return config('app.debug', false) && config('module.debug_mode', false);
     }
 }
