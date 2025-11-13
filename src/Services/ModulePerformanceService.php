@@ -58,14 +58,13 @@ class ModulePerformanceService
 
         unset($this->timers[$operation]);
 
-        if($this->isDebugMode()){
+        if ($this->isDebugMode()) {
             Log::debug("Performance metric recorded: {$operation}", [
-            'execution_time_ms' => round($executionTime * 1000, 2),
-            'memory_usage_mb' => round($memoryUsage / 1024 / 1024, 2),
-            'context' => $context,
-        ]);
+                'execution_time_ms' => round($executionTime * 1000, 2),
+                'memory_usage_mb' => round($memoryUsage / 1024 / 1024, 2),
+                'context' => $context,
+            ]);
         }
-
     }
 
     /**
@@ -131,13 +130,13 @@ class ModulePerformanceService
         ];
     }
 
-        /**
+    /**
      * Check if application is in debug mode.
      *
      * @return bool
      */
     protected function isDebugMode(): bool
     {
-        return config('app.debug', false);
+        return config('app.debug', false) && config('module.debug_mode', false);
     }
 }
