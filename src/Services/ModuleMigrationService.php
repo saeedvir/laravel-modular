@@ -22,7 +22,7 @@ class ModuleMigrationService
     public function runModuleMigrations(string $modulePath): bool
     {
         $migrationPath = $modulePath . '/database/migrations';
-        
+
         if (!File::exists($migrationPath)) {
             return true; // No migrations to run
         }
@@ -37,7 +37,6 @@ class ModuleMigrationService
                 Log::info('Module migrations completed', ['path' => $migrationPath]);
             }
             return true;
-
         } catch (\Exception $e) {
             Log::error('Module migration failed', [
                 'path' => $migrationPath,
@@ -56,7 +55,7 @@ class ModuleMigrationService
     public function getPendingMigrations(string $modulePath): array
     {
         $migrationPath = $modulePath . '/database/migrations';
-        
+
         if (!File::exists($migrationPath)) {
             return [];
         }
@@ -80,6 +79,6 @@ class ModuleMigrationService
      */
     protected function isDebugMode(): bool
     {
-        return config('app.debug', false);
+        return config('app.debug', false) && config('module.debug_mode', false);
     }
 }
