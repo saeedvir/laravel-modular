@@ -1,0 +1,17 @@
+{
+    "name": "modules/{{MODULE_LOWER}}",
+    "description": "The {{MODULE_STUDLY}} module",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "{{COMPOSER_MODULE_NAMESPACE}}\\": "app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "{{COMPOSER_MODULE_NAMESPACE}}\\Providers\\{{MODULE_PROVIDER}}"
+            ]
+        }
+    }
+}
