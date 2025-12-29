@@ -38,7 +38,15 @@ class MakeModuleCommand extends Command
 
         if ($moduleManager->create($name)) {
             $this->info("Module '{$name}' created successfully!");
+<<<<<<< HEAD
             $this->info("Run 'composer dump-autoload' to register the new module.");
+=======
+            
+            // Update composer.json to include module autoloading
+            $this->updateComposerAutoload($name, $moduleManager);
+            
+            $this->info("Don't forget to run: composer dump-autoload");
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
             
             return self::SUCCESS;
         }
@@ -47,4 +55,32 @@ class MakeModuleCommand extends Command
         return self::FAILURE;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Update composer.json with module autoloading
+     */
+    protected function updateComposerAutoload(string $name, ModuleManager $moduleManager): void
+    {
+        $composerPath = base_path('composer.json');
+        $composer = json_decode(File::get($composerPath), true);
+
+        $module = $moduleManager->get($name);
+        $moduleComposerPath = $module['path'] . '/composer.json';
+        
+        if (File::exists($moduleComposerPath)) {
+            $moduleComposer = json_decode(File::get($moduleComposerPath), true);
+            
+            if (isset($moduleComposer['autoload']['psr-4'])) {
+                foreach ($moduleComposer['autoload']['psr-4'] as $namespace => $path) {
+                    $fullPath = 'modules/' . $name . '/' . $path;
+                    $composer['autoload']['psr-4'][$namespace] = $fullPath;
+                }
+                
+                File::put($composerPath, json_encode($composer, JSON_PRETTY_PRINT));
+                $this->info("Updated composer.json with module autoloading.");
+            }
+        }
+    }
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 }

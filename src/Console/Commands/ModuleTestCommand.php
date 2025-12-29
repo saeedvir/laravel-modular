@@ -77,7 +77,11 @@ class ModuleTestCommand extends Command
         $command = "vendor/bin/phpunit {$testPath}";
         $exitCode = 0;
         
+<<<<<<< HEAD
         \passthru($command, $exitCode);
+=======
+        passthru($command, $exitCode);
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         
         return $exitCode;
     }
@@ -110,7 +114,11 @@ class ModuleTestCommand extends Command
             $command = "vendor/bin/phpunit {$testPath}";
             $exitCode = 0;
             
+<<<<<<< HEAD
             \passthru($command, $exitCode);
+=======
+            passthru($command, $exitCode);
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
             
             if ($exitCode !== 0) {
                 $failedModules[] = $module['name'];

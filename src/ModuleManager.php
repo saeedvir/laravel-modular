@@ -12,7 +12,10 @@ use Laravel\Modular\Exceptions\ModuleException;
 use Laravel\Modular\Services\ModuleCacheService;
 use Laravel\Modular\Services\ModulePerformanceService;
 use Laravel\Modular\Services\ModuleStubService;
+<<<<<<< HEAD
 use Laravel\Modular\Services\ModuleStatusService;
+=======
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
 /**
  * Module manager for handling module operations.
@@ -28,7 +31,10 @@ class ModuleManager implements ModuleManagerInterface
     protected ModuleCacheService $cacheService;
     protected ModulePerformanceService $performanceService;
     protected ModuleStubService $stubService;
+<<<<<<< HEAD
     protected ModuleStatusService $statusService;
+=======
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
     /**
      * Create a new module manager instance.
@@ -40,14 +46,21 @@ class ModuleManager implements ModuleManagerInterface
     public function __construct(
         ?ModuleCacheService $cacheService = null,
         ?ModulePerformanceService $performanceService = null,
+<<<<<<< HEAD
         ?ModuleStubService $stubService = null,
         ?ModuleStatusService $statusService = null
+=======
+        ?ModuleStubService $stubService = null
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
     ) {
         $this->modulePath = config('module.path', base_path('modules'));
         $this->cacheService = $cacheService ?? new ModuleCacheService();
         $this->performanceService = $performanceService ?? new ModulePerformanceService();
         $this->stubService = $stubService ?? new ModuleStubService();
+<<<<<<< HEAD
         $this->statusService = $statusService ?? new ModuleStatusService($this->modulePath);
+=======
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
     }
 
     /**
@@ -183,9 +196,15 @@ class ModuleManager implements ModuleManagerInterface
     /**
      * Check if application is in debug mode.
      */
+<<<<<<< HEAD
     public function isDebugMode(): bool
     {
         return (bool) config('module.debug', config('app.debug', false));
+=======
+    protected function isDebugMode(): bool
+    {
+        return config('app.debug', false) && config('module.debug_mode', true);
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
     }
 
     /**
@@ -193,6 +212,7 @@ class ModuleManager implements ModuleManagerInterface
      */
     protected function isModuleEnabled(string $name): bool
     {
+<<<<<<< HEAD
         // Persistent state takes precedence
         $persistentStatus = $this->statusService->getStatus($name, true);
         
@@ -227,6 +247,10 @@ class ModuleManager implements ModuleManagerInterface
     {
         $this->statusService->setStatus($name, false);
         $this->clearCache();
+=======
+        $disabledModules = config('module.disabled', []);
+        return !in_array($name, $disabledModules);
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
     }
 
 
@@ -311,11 +335,143 @@ class ModuleManager implements ModuleManagerInterface
 
 
     /**
+<<<<<<< HEAD
+=======
+     * Create composer.json for module
+     */
+    protected function createComposerJson(string $name, string $studlyName, string $path): void
+    {
+        // Build namespace and provider strings with DOUBLE backslashes for each separator
+        // PHP string 'A\\B' contains 1 backslash, json_encode outputs "A\\B" (escaped)
+        // But we need the actual backslashes to be doubled in the source
+        $namespace = 'Modules\\\\' . $studlyName . '\\\\';
+        $provider = 'Modules\\\\' . $studlyName . '\\\\Providers\\\\' . $studlyName . 'ServiceProvider';
+
+        $content = [
+            'name' => "modules/{$name}",
+            'description' => "The {$studlyName} module",
+            'type' => 'library',
+            'autoload' => [
+                'psr-4' => [
+                    $namespace => 'appx/',
+                ],
+            ],
+            'extra' => [
+                'laravel' => [
+                    'providers' => [
+                        $provider,
+                    ],
+                ],
+            ],
+        ];
+
+        // $json = json_encode($content, JSON_PRETTY_PRINT);
+        $json = json_encode($content);
+
+        // Log for debugging
+        if ($this->isDebugMode()) {
+            Log::debug('Creating composer.json', [
+                'path' => $path . '/composer.json',
+                'namespace' => $namespace,
+                'provider' => $provider,
+                'json_sample' => substr($json, 0, 200)
+            ]);
+        }
+
+        File::put($path . '/composer.json', $json);
+    }
+
+    /**
+     * Create service provider for module
+     */
+    protected function createServiceProvider(string $name, string $studlyName, string $path): void
+    {
+        $namespace = "Modules\\{$studlyName}\\Providers";
+        $class = "{$studlyName}ServiceProvider";
+        $lowerName = strtolower($name);
+
+        $content = "<?php\n\nnamespace {$namespace};\n\n";
+        $content .= "use Illuminate\\Support\\ServiceProvider;\n";
+        $content .= "use Illuminate\\Support\\Facades\\Route;\n\n";
+        $content .= "class {$class} extends ServiceProvider\n";
+        $content .= "{\n";
+        $content .= "    /**\n";
+        $content .= "     * Register services.\n";
+        $content .= "     */\n";
+        $content .= "    public function register(): void\n";
+        $content .= "    {\n";
+        $content .= "        // Register config\n";
+        $content .= "        \$this->mergeConfigFrom(\n";
+        $content .= "            __DIR__.'/../../config/config.php',\n";
+        $content .= "            '{$name}'\n";
+        $content .= "        );\n";
+        $content .= "    }\n\n";
+        $content .= "    /**\n";
+        $content .= "     * Bootstrap services.\n";
+        $content .= "     */\n";
+        $content .= "    public function boot(): void\n";
+        $content .= "    {\n";
+        $content .= "        // Load migrations\n";
+        $content .= "        \$this->loadMigrationsFrom(__DIR__.'/../../database/migrations');\n\n";
+        $content .= "        // Load views\n";
+        $content .= "        \$this->loadViewsFrom(__DIR__.'/../../resources/views', '{$lowerName}');\n\n";
+        $content .= "        // Load translations\n";
+        $content .= "        \$this->loadTranslationsFrom(__DIR__.'/../../resources/lang', '{$lowerName}');\n\n";
+        $content .= "        // Register routes\n";
+        $content .= "        \$this->registerRoutes();\n\n";
+        $content .= "        // Publish config\n";
+        $content .= "        if (\$this->app->runningInConsole()) {\n";
+        $content .= "            \$this->publishes([\n";
+        $content .= "                __DIR__.'/../../config/config.php' => config_path('{$name}.php'),\n";
+        $content .= "            ], '{$name}-config');\n\n";
+        $content .= "            // Publish views\n";
+        $content .= "            \$this->publishes([\n";
+        $content .= "                __DIR__.'/../../resources/views' => resource_path('views/vendor/{$name}'),\n";
+        $content .= "            ], '{$name}-views');\n\n";
+        $content .= "            // Publish migrations\n";
+        $content .= "            \$this->publishes([\n";
+        $content .= "                __DIR__.'/../../database/migrations' => database_path('migrations'),\n";
+        $content .= "            ], '{$name}-migrations');\n\n";
+        $content .= "            // Publish translations\n";
+        $content .= "            \$this->publishes([\n";
+        $content .= "                __DIR__.'/../../resources/lang' => lang_path('vendor/{$name}'),\n";
+        $content .= "            ], '{$name}-lang');\n";
+        $content .= "        }\n";
+        $content .= "    }\n\n";
+        $content .= "    /**\n";
+        $content .= "     * Register routes for the module\n";
+        $content .= "     */\n";
+        $content .= "    protected function registerRoutes(): void\n";
+        $content .= "    {\n";
+        $content .= "        Route::group([\n";
+        $content .= "            'middleware' => 'web',\n";
+        $content .= "            'namespace' => 'Modules\\\\{$studlyName}\\\\Http\\\\Controllers',\n";
+        $content .= "        ], function () {\n";
+        $content .= "            \$this->loadRoutesFrom(__DIR__.'/../../routes/web.php');\n";
+        $content .= "        });\n\n";
+        $content .= "        Route::group([\n";
+        $content .= "            'middleware' => 'api',\n";
+        $content .= "            'prefix' => 'api',\n";
+        $content .= "            'namespace' => 'Modules\\\\{$studlyName}\\\\Http\\\\Controllers',\n";
+        $content .= "        ], function () {\n";
+        $content .= "            \$this->loadRoutesFrom(__DIR__.'/../../routes/api.php');\n";
+        $content .= "        });\n";
+        $content .= "    }\n";
+        $content .= "}\n";
+
+        File::put($path . '/app/Providers/' . $studlyName . 'ServiceProvider.php', $content);
+    }
+
+    /**
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
      * Create route files for module
      */
     protected function createRouteFiles(string $name, string $studlyName, string $path): void
     {
+<<<<<<< HEAD
         $moduleViewNameSpace = strtolower(str_replace("","", $name));
+=======
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         // web.php
         $webContent = "<?php\n\n";
         $webContent .= "use Illuminate\\Support\\Facades\\Route;\n\n";
@@ -327,10 +483,15 @@ class ModuleManager implements ModuleManagerInterface
         $webContent .= "| Here is where you can register web routes for your {$studlyName} module.\n";
         $webContent .= "|\n";
         $webContent .= "*/\n\n";
+<<<<<<< HEAD
         $webContent .= "Route::prefix('{$moduleViewNameSpace}')->group(function () {\n";
         $webContent .= "    Route::get('/', function () {\n";
         $webContent .= "        return view('{$moduleViewNameSpace}::index');\n";
         $webContent .= "    });\n";
+=======
+        $webContent .= "Route::prefix('{$name}')->group(function () {\n";
+        $webContent .= "    // Add your web routes here\n";
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         $webContent .= "});\n";
 
         File::put($path . '/routes/web.php', $webContent);
@@ -400,6 +561,7 @@ class ModuleManager implements ModuleManagerInterface
             throw ModuleException::invalidModuleName($name);
         }
 
+<<<<<<< HEAD
         // Must start with a letter and contain only alphanumeric characters, underscores, or hyphens
         if (!preg_match('/^[A-Za-z][A-Za-z0-9_-]*$/', $name)) {
             throw ModuleException::invalidModuleName($name);
@@ -413,6 +575,14 @@ class ModuleManager implements ModuleManagerInterface
         $reserved = ['app', 'config', 'database', 'public', 'resources', 'routes', 'storage', 'tests', 'vendor', 'module', 'modules'];
         if (in_array(strtolower($name), $reserved)) {
             throw new ModuleException("The name '{$name}' is reserved and cannot be used as a module name.");
+=======
+        if (!preg_match('/^[A-Za-z][A-Za-z0-9_]*$/', $name)) {
+            throw ModuleException::invalidModuleName($name);
+        }
+
+        if (strlen($name) > 50) {
+            throw ModuleException::invalidModuleName($name);
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         }
     }
 
@@ -433,12 +603,20 @@ class ModuleManager implements ModuleManagerInterface
             }
         }
 
+<<<<<<< HEAD
         if (!\is_writable($parentDir)) {
+=======
+        if (!is_writable($parentDir)) {
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
             throw ModuleException::insufficientPermissions($parentDir);
         }
 
         // Check available disk space (require at least 10MB)
+<<<<<<< HEAD
         $freeBytes = \disk_free_space($parentDir);
+=======
+        $freeBytes = disk_free_space($parentDir);
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         if ($freeBytes !== false && $freeBytes < 10 * 1024 * 1024) {
             throw ModuleException::insufficientDiskSpace();
         }
@@ -546,11 +724,22 @@ class ModuleManager implements ModuleManagerInterface
                 $template
             );
         } catch (\Exception $e) {
+<<<<<<< HEAD
             Log::error("Failed to create module resources for {$name}", [
                 'error' => $e->getMessage(),
                 'path' => $path
             ]);
             throw new ModuleException("Failed to generate module files: " . $e->getMessage(), 0, $e);
+=======
+            // Fall back to legacy creation if stubs fail
+            if ($this->isDebugMode()) {
+                Log::warning('Stub creation failed, falling back to legacy method', [
+                    'error' => $e->getMessage()
+                ]);
+            }
+
+            $this->createLegacyModuleFiles($name, $studlyName, $path);
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         }
 
         // Create route files
@@ -561,6 +750,24 @@ class ModuleManager implements ModuleManagerInterface
         File::put($path . '/resources/lang/en/.gitkeep', '');
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Create module files using legacy method (fallback).
+     *
+     * @param string $name
+     * @param string $studlyName
+     * @param string $path
+     */
+    protected function createLegacyModuleFiles(string $name, string $studlyName, string $path): void
+    {
+        // Create composer.json
+        $this->createComposerJson($name, $studlyName, $path);
+
+        // Create service provider
+        $this->createServiceProvider($name, $studlyName, $path);
+    }
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
     /**
      * Get module service provider class with error handling.
@@ -575,7 +782,11 @@ class ModuleManager implements ModuleManagerInterface
             $composerContent = File::get($composerFile);
             $composer = json_decode($composerContent, true);
 
+<<<<<<< HEAD
             if (\json_last_error() !== JSON_ERROR_NONE) {
+=======
+            if (json_last_error() !== JSON_ERROR_NONE) {
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
                 throw ModuleException::invalidJson($composerFile);
             }
 

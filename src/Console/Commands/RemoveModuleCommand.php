@@ -46,8 +46,16 @@ class RemoveModuleCommand extends Command
         $this->info("Removing module '{$name}'...");
 
         if ($moduleManager->delete($name)) {
+<<<<<<< HEAD
             $this->info("Module '{$name}' removed successfully!");
             $this->info("Run 'composer dump-autoload' to refresh mappings.");
+=======
+            // Remove from composer.json
+            $this->removeFromComposerAutoload($name);
+            
+            $this->info("Module '{$name}' removed successfully!");
+            $this->info("Don't forget to run: composer dump-autoload");
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
             
             return self::SUCCESS;
         }
@@ -56,4 +64,24 @@ class RemoveModuleCommand extends Command
         return self::FAILURE;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Remove module from composer.json autoloading
+     */
+    protected function removeFromComposerAutoload(string $name): void
+    {
+        $composerPath = base_path('composer.json');
+        $composer = json_decode(File::get($composerPath), true);
+
+        $studlyName = \Illuminate\Support\Str::studly($name);
+        $namespace = "Modules\\{$studlyName}\\";
+
+        if (isset($composer['autoload']['psr-4'][$namespace])) {
+            unset($composer['autoload']['psr-4'][$namespace]);
+            File::put($composerPath, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            $this->info("Removed module from composer.json autoloading.");
+        }
+    }
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 }

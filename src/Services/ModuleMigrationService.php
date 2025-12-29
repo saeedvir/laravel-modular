@@ -29,7 +29,11 @@ class ModuleMigrationService
 
         try {
             Artisan::call('migrate', [
+<<<<<<< HEAD
                 '--path' => \str_replace(base_path() . '/', '', $migrationPath),
+=======
+                '--path' => str_replace(base_path() . '/', '', $migrationPath),
+>>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
                 '--force' => true,
             ]);
 
