@@ -24,10 +24,7 @@
 - ✅ Added comprehensive DocBlocks for all public methods
 - ✅ Applied PSR-12 coding standards consistently
 - ✅ Added proper type hints throughout the codebase
-<<<<<<< HEAD
 - ✅ Conducted codebase-wide refactoring to qualify native PHP functions and global helpers
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
 ### ✅ Medium Priority Items (COMPLETED)
 
@@ -64,10 +61,7 @@
 - ✅ Added migration tracking and execution
 - ✅ Optimized migration loading in service providers
 - ✅ Support for module-specific database operations
-<<<<<<< HEAD
 - ✅ **Automatic State Persistence**: Implemented `ModuleStatusService` for CLI-managed module statuses
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
 ### ✅ Additional Features (COMPLETED)
 
@@ -92,14 +86,9 @@ packages/Modular/src/
 ├── Services/
 │   ├── ModuleCacheService.php             # Cache management
 │   ├── ModulePerformanceService.php       # Performance monitoring
-<<<<<<< HEAD
 │      ├── ModuleStubService.php              # Template/stub management
 │   ├── ModuleMigrationService.php         # Migration optimization
 │   └── ModuleStatusService.php            # NEW: Persistent status management
-=======
-│   ├── ModuleStubService.php              # Template/stub management
-│   └── ModuleMigrationService.php         # Migration optimization
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 ├── Console/Commands/
 │   ├── MakeModuleCommand.php              # Enhanced with templates
 │   ├── MakeModuleControllerCommand.php    # Generate controllers

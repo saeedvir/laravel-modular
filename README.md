@@ -14,13 +14,8 @@ A powerful modular architecture package for Laravel applications that allows you
 
 ## ✨ Features
 
-<<<<<<< HEAD
 - 📦 **Zero Configuration** - Modules are automatically discovered and registered via composer merge plugin
 - 💾 **Automatic Persistence** - Module enable/disable states are automatically saved and restored
-=======
-- 🚀 **Auto-Discovery** - Modules automatically discovered and registered via composer merge plugin
-- 📦 **Zero Configuration** - Just run `composer dump-autoload` after creating modules
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
   
 - ⚡ **Performance Optimized** - Built-in caching and lazy loading for production use
 - ⚡ (saeedvir/laravel-modular  🆚  nWidart/laravel-modules) Peak memory: Improved by 23.1% and Memory usage improved by 10.2% 
@@ -112,24 +107,16 @@ modules/Blog/
 └── composer.json
 ```
 
-<<<<<<< HEAD
-=======
-### List All Modules
-
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 ```bash
 php artisan module:list
 ```
 
-<<<<<<< HEAD
 ### Check Module Status
 
 ```bash
 php artisan module:status
 ```
 
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 ### Remove a Module
 
 ```bash
@@ -146,7 +133,6 @@ php artisan module:controller Blog PostController
 
 ### Creating Models
 
-<<<<<<< HEAD
 ```bash
 php artisan module:make-model Blog Post --migration --factory --seeder
 ```
@@ -154,9 +140,6 @@ php artisan module:make-model Blog Post --migration --factory --seeder
 This creates a model in `modules/Blog/app/Models/Post.php` and optionally generates the associated migration, factory, and seeder.
 
 Alternatively, you can create models manually:
-=======
-Create models directly in your module:
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
 ```php
 <?php
@@ -201,11 +184,7 @@ return view('blog::posts.index');
 Create migrations in your module:
 
 ```bash
-<<<<<<< HEAD
 php artisan module:make-migration Blog create_posts_table
-=======
-php artisan module:migration Blog create_posts_table
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 ```
 
 Run migrations:
@@ -214,7 +193,6 @@ Run migrations:
 php artisan migrate
 ```
 
-<<<<<<< HEAD
 ### Testing
 
 Generate a test for your module:
@@ -230,8 +208,6 @@ php artisan module:test Blog
 php artisan module:test --all
 ```
 
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 ## 🎯 Advanced Features
 
 ### Module Configuration
@@ -277,7 +253,6 @@ admin::livewire.admin-login
 
 ### Disabling Modules
 
-<<<<<<< HEAD
 You can easily enable or disable modules using Artisan commands. These states are automatically persisted in `modules/modules.json`.
 
 ```bash
@@ -289,9 +264,6 @@ php artisan module:enable Blog
 ```
 
 Alternatively, you can manually list modules to be disabled in `config/module.php`:
-=======
-In `config/module.php`:
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
 ```php
 'disabled' => [
@@ -299,11 +271,8 @@ In `config/module.php`:
 ],
 ```
 
-<<<<<<< HEAD
 > **Note**: The persistent state in `modules.json` takes precedence over the `config/module.php`'s `disabled` array.
 
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 ### Performance Optimization
 
 The package includes built-in caching:
@@ -311,12 +280,9 @@ The package includes built-in caching:
 ```bash
 # Cache module discovery
 php artisan module:cache
-<<<<<<< HEAD
 
 # Pre-calculate and optimize module discovery (recommended for production)
 php artisan module:optimize
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 ```
 
 ### Debug Mode
@@ -337,27 +303,19 @@ When `APP_DEBUG=false` (production), only errors are logged.
 | `module:list` | List all modules |
 | `module:remove` | Remove a module |
 | `module:make-controller` | Create a controller in a module |
-<<<<<<< HEAD
 | `module:make-model` | Create a model in a module |
 | `module:make-test` | Create a test class in a module |
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 | `module:make-request` | Create a form request in a module |
 | `module:make-resource` | Create an API resource in a module |
 | `module:make-migration` | Create a migration in a module |
 | `module:make-factory` | Create a model factory in a module |
 | `module:make-seeder` | Create a database seeder in a module |
-<<<<<<< HEAD
 | `module:enable` | Enable a specific module |
 | `module:disable` | Disable a specific module |
 | `module:status` | Show status of all modules |
 | `module:test` | Run tests for a specific module |
 | `module:cache` | Manage module discovery cache |
 | `module:optimize` | Optimize module discovery for production |
-=======
-| `module:test` | Run tests for a specific module |
-| `module:cache` | Cache module configuration |
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
 ## ⚙️ Configuration
 
@@ -447,11 +405,7 @@ Both packages provide modular architecture for Laravel, but with different appro
 | **Learning Curve** | Low (standard Laravel) | Moderate |
 | **Module Structure** | Laravel conventions | Custom structure |
 | **Asset Management** | Standard Laravel | Built-in system |
-<<<<<<< HEAD
 | **CLI Commands** | 17 essential commands | 40+ commands |
-=======
-| **CLI Commands** | 11 essential commands | 40+ commands |
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 | **Community** | Growing | Established |
 | **Package Size** | Lightweight | Full-featured |
 

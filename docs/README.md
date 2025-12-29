@@ -113,15 +113,11 @@ composer dump-autoload
 | `module:factory` | Create a factory |
 | `module:seeder` | Create a seeder |
 | `module:test` | Run module tests |
-<<<<<<< HEAD
 | `module:cache` | Manage module discovery cache |
 | `module:optimize` | Optimize module discovery |
 | `module:status` | Show status of all modules |
 | `module:enable` | Enable a specific module |
 | `module:disable` | Disable a specific module |
-=======
-| `module:cache` | Cache module config |
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
 ## 🔧 Configuration
 
@@ -266,13 +262,8 @@ See [Performance Optimization](OPTIMIZATION_SUMMARY.md) for details.
 
 This documentation is continuously updated. Check the repository for the latest version.
 
-<<<<<<< HEAD
 **Last Updated**: December 2025  
 **Package Version**: 1.2.0
-=======
-**Last Updated**: November 2025  
-**Package Version**: 1.0.0
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
 ---
 
