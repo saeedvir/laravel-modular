@@ -12,10 +12,8 @@ use Laravel\Modular\Exceptions\ModuleException;
 use Laravel\Modular\Services\ModuleCacheService;
 use Laravel\Modular\Services\ModulePerformanceService;
 use Laravel\Modular\Services\ModuleStubService;
-<<<<<<< HEAD
 use Laravel\Modular\Services\ModuleStatusService;
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
+
 
 /**
  * Module manager for handling module operations.
@@ -31,10 +29,7 @@ class ModuleManager implements ModuleManagerInterface
     protected ModuleCacheService $cacheService;
     protected ModulePerformanceService $performanceService;
     protected ModuleStubService $stubService;
-<<<<<<< HEAD
     protected ModuleStatusService $statusService;
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
     /**
      * Create a new module manager instance.
@@ -46,21 +41,14 @@ class ModuleManager implements ModuleManagerInterface
     public function __construct(
         ?ModuleCacheService $cacheService = null,
         ?ModulePerformanceService $performanceService = null,
-<<<<<<< HEAD
         ?ModuleStubService $stubService = null,
         ?ModuleStatusService $statusService = null
-=======
-        ?ModuleStubService $stubService = null
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
     ) {
         $this->modulePath = config('module.path', base_path('modules'));
         $this->cacheService = $cacheService ?? new ModuleCacheService();
         $this->performanceService = $performanceService ?? new ModulePerformanceService();
         $this->stubService = $stubService ?? new ModuleStubService();
-<<<<<<< HEAD
         $this->statusService = $statusService ?? new ModuleStatusService($this->modulePath);
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
     }
 
     /**
@@ -196,15 +184,9 @@ class ModuleManager implements ModuleManagerInterface
     /**
      * Check if application is in debug mode.
      */
-<<<<<<< HEAD
     public function isDebugMode(): bool
     {
         return (bool) config('module.debug', config('app.debug', false));
-=======
-    protected function isDebugMode(): bool
-    {
-        return config('app.debug', false) && config('module.debug_mode', true);
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
     }
 
     /**
@@ -212,7 +194,6 @@ class ModuleManager implements ModuleManagerInterface
      */
     protected function isModuleEnabled(string $name): bool
     {
-<<<<<<< HEAD
         // Persistent state takes precedence
         $persistentStatus = $this->statusService->getStatus($name, true);
         
@@ -247,10 +228,6 @@ class ModuleManager implements ModuleManagerInterface
     {
         $this->statusService->setStatus($name, false);
         $this->clearCache();
-=======
-        $disabledModules = config('module.disabled', []);
-        return !in_array($name, $disabledModules);
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
     }
 
 
@@ -339,10 +316,7 @@ class ModuleManager implements ModuleManagerInterface
      */
     protected function createRouteFiles(string $name, string $studlyName, string $path): void
     {
-<<<<<<< HEAD
         $moduleViewNameSpace = strtolower(str_replace("","", $name));
-=======
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         // web.php
         $webContent = "<?php\n\n";
         $webContent .= "use Illuminate\\Support\\Facades\\Route;\n\n";
@@ -354,15 +328,10 @@ class ModuleManager implements ModuleManagerInterface
         $webContent .= "| Here is where you can register web routes for your {$studlyName} module.\n";
         $webContent .= "|\n";
         $webContent .= "*/\n\n";
-<<<<<<< HEAD
         $webContent .= "Route::prefix('{$moduleViewNameSpace}')->group(function () {\n";
         $webContent .= "    Route::get('/', function () {\n";
         $webContent .= "        return view('{$moduleViewNameSpace}::index');\n";
         $webContent .= "    });\n";
-=======
-        $webContent .= "Route::prefix('{$name}')->group(function () {\n";
-        $webContent .= "    // Add your web routes here\n";
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         $webContent .= "});\n";
 
         File::put($path . '/routes/web.php', $webContent);
@@ -432,7 +401,6 @@ class ModuleManager implements ModuleManagerInterface
             throw ModuleException::invalidModuleName($name);
         }
 
-<<<<<<< HEAD
         // Must start with a letter and contain only alphanumeric characters, underscores, or hyphens
         if (!preg_match('/^[A-Za-z][A-Za-z0-9_-]*$/', $name)) {
             throw ModuleException::invalidModuleName($name);
@@ -446,14 +414,6 @@ class ModuleManager implements ModuleManagerInterface
         $reserved = ['app', 'config', 'database', 'public', 'resources', 'routes', 'storage', 'tests', 'vendor', 'module', 'modules'];
         if (in_array(strtolower($name), $reserved)) {
             throw new ModuleException("The name '{$name}' is reserved and cannot be used as a module name.");
-=======
-        if (!preg_match('/^[A-Za-z][A-Za-z0-9_]*$/', $name)) {
-            throw ModuleException::invalidModuleName($name);
-        }
-
-        if (strlen($name) > 50) {
-            throw ModuleException::invalidModuleName($name);
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         }
     }
 
@@ -474,20 +434,12 @@ class ModuleManager implements ModuleManagerInterface
             }
         }
 
-<<<<<<< HEAD
         if (!\is_writable($parentDir)) {
-=======
-        if (!is_writable($parentDir)) {
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
             throw ModuleException::insufficientPermissions($parentDir);
         }
 
         // Check available disk space (require at least 10MB)
-<<<<<<< HEAD
         $freeBytes = \disk_free_space($parentDir);
-=======
-        $freeBytes = disk_free_space($parentDir);
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         if ($freeBytes !== false && $freeBytes < 10 * 1024 * 1024) {
             throw ModuleException::insufficientDiskSpace();
         }
@@ -595,22 +547,11 @@ class ModuleManager implements ModuleManagerInterface
                 $template
             );
         } catch (\Exception $e) {
-<<<<<<< HEAD
             Log::error("Failed to create module resources for {$name}", [
                 'error' => $e->getMessage(),
                 'path' => $path
             ]);
             throw new ModuleException("Failed to generate module files: " . $e->getMessage(), 0, $e);
-=======
-            // Fall back to legacy creation if stubs fail
-            if ($this->isDebugMode()) {
-                Log::warning('Stub creation failed, falling back to legacy method', [
-                    'error' => $e->getMessage()
-                ]);
-            }
-
-            $this->createLegacyModuleFiles($name, $studlyName, $path);
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
         }
 
         // Create route files
@@ -621,24 +562,6 @@ class ModuleManager implements ModuleManagerInterface
         File::put($path . '/resources/lang/en/.gitkeep', '');
     }
 
-<<<<<<< HEAD
-=======
-    /**
-     * Create module files using legacy method (fallback).
-     *
-     * @param string $name
-     * @param string $studlyName
-     * @param string $path
-     */
-    protected function createLegacyModuleFiles(string $name, string $studlyName, string $path): void
-    {
-        // Create composer.json
-        $this->createComposerJson($name, $studlyName, $path);
-
-        // Create service provider
-        $this->createServiceProvider($name, $studlyName, $path);
-    }
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
 
     /**
      * Get module service provider class with error handling.
@@ -653,11 +576,7 @@ class ModuleManager implements ModuleManagerInterface
             $composerContent = File::get($composerFile);
             $composer = json_decode($composerContent, true);
 
-<<<<<<< HEAD
             if (\json_last_error() !== JSON_ERROR_NONE) {
-=======
-            if (json_last_error() !== JSON_ERROR_NONE) {
->>>>>>> 1e28343963064afec1036f03d9c7bfca61878a0c
                 throw ModuleException::invalidJson($composerFile);
             }
 
