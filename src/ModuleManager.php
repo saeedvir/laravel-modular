@@ -14,7 +14,6 @@ use Laravel\Modular\Services\ModulePerformanceService;
 use Laravel\Modular\Services\ModuleStubService;
 use Laravel\Modular\Services\ModuleStatusService;
 
-
 /**
  * Module manager for handling module operations.
  *
