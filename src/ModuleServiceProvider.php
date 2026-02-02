@@ -33,12 +33,14 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register services as singletons
+        // Merge config first (safe)
+        $this->mergeConfigFrom(__DIR__ . '/../config/module.php', 'module');
+
+        // Core services (lazy, safe)
         $this->app->singleton(ModuleCacheService::class);
         $this->app->singleton(ModulePerformanceService::class);
         $this->app->singleton(ModuleStubService::class);
 
-        // Register module manager
         $this->app->singleton(ModuleManager::class, function ($app) {
             return new ModuleManager(
                 $app->make(ModuleCacheService::class),
@@ -47,14 +49,7 @@ class ModuleServiceProvider extends ServiceProvider
             );
         });
 
-        // Register facade alias
         $this->app->alias(ModuleManager::class, 'module');
-
-        // Register module service providers
-        $this->registerModuleProviders();
-
-        // Merge config
-        $this->mergeConfigFrom(__DIR__.'/../config/module.php', 'module');
     }
 
     /**
@@ -64,8 +59,13 @@ class ModuleServiceProvider extends ServiceProvider
     {
         // Publish config
         $this->publishes([
-            __DIR__.'/../config/module.php' => config_path('module.php'),
+            __DIR__ . '/../config/module.php' => config_path('module.php'),
         ], 'module-config');
+
+        // Register module providers ONLY after app is fully booted
+        $this->app->booted(function () {
+            $this->registerModuleProviders();
+        });
 
         // Register commands
         if ($this->app->runningInConsole()) {
@@ -93,14 +93,12 @@ class ModuleServiceProvider extends ServiceProvider
 
     /**
      * Register all enabled module service providers.
-     * Composer merge plugin handles autoloading automatically.
      */
     protected function registerModuleProviders(): void
     {
         $moduleManager = $this->app->make(ModuleManager::class);
-        $modules = $moduleManager->enabled();
 
-        foreach ($modules as $module) {
+        foreach ($moduleManager->enabled() as $module) {
             if (!empty($module['provider']) && class_exists($module['provider'])) {
                 $this->app->register($module['provider']);
             }
