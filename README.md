@@ -29,8 +29,8 @@ A powerful modular architecture package for Laravel applications that allows you
 
 ## 📋 Requirements
 
-- PHP ^8.2
-- Laravel ^11.0 or ^12.0
+- PHP ^8.2 (PHP ^8.3 for Laravel 13)
+- Laravel ^11.0, ^12.0, or ^13.0
 - Composer
 
 ## 📦 Installation
