@@ -47,6 +47,14 @@ The package will automatically register itself via Laravel's package auto-discov
 
 ```json
 {
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/",
+            "Module\\": "modules/"
+        }
+    },
     "extra": {
         "merge-plugin": {
             "include": ["modules/*/composer.json"]
