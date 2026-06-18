@@ -25,7 +25,7 @@ A powerful modular architecture package for Laravel applications that allows you
 - 📊 **Performance Monitoring** - Track module discovery and operation performance
 - 🐛 **Debug-Aware Logging** - Respects `APP_DEBUG` for production-friendly logs
 - 🧪 **Testing Support** - Built-in infrastructure for module testing
-- 🎯 **Laravel 11 & 12** - Full support for modern Laravel versions
+- 🎯 **Laravel 11 & 12 & 13** - Full support for modern Laravel versions
 
 ## 📋 Requirements
 
